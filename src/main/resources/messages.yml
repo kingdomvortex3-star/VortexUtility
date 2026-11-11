@@ -1,0 +1,19 @@
+
+prefix: "&8[&bVortexUtility&8] "
+
+no-permission: "&cKamu tidak memiliki izin."
+player-only: "&cPerintah ini hanya bisa digunakan oleh player."
+reloaded: "&aKonfigurasi berhasil dimuat ulang."
+
+rtp:
+  opening: "&eMembuka menu RTP..."
+  searching: "&eMencari lokasi aman..."
+  success: "&aBerhasil teleport ke lokasi aman!"
+  failed: "&cLokasi aman tidak ditemukan. Silakan coba lagi."
+  cooldown: "&cTunggu &f%time% detik &csebelum RTP lagi."
+  busy: "&cTerlalu banyak proses RTP. Silakan coba lagi."
+  world-disabled: "&cRTP tidak tersedia di world tersebut."
+  no-worlds: "&cTidak ada world RTP yang tersedia."
+
+ec:
+  opening: "&aEnder Chest dibuka."
