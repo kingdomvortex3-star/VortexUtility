@@ -1,29 +1,29 @@
-⚡ VORTEX UTILITY (PREMIUM PLUGIN)
+⚡ VORTEX UTILITY
+
+ADVANCED • MODERN • LIGHTWEIGHT
 
 ONE PLUGIN. MORE POSSIBILITIES.
 
-Advanced All-in-One Utility System for Minecraft
-
-<p align="center">JAVA 25 · MINECRAFT 26.3 · PAPER / PURPUR
-
-Developed by Vortex Teams
+<p align="center">"Paper" (https://img.shields.io/badge/Platform-Paper%20%7C%20Purpur-00D9FF?style=for-the-badge)
+"Java" (https://img.shields.io/badge/Java-25-orange?style=for-the-badge&logo=openjdk)
+"Minecraft" (https://img.shields.io/badge/Minecraft-26.3-55CC55?style=for-the-badge&logo=minecraft)
+"Developer" (https://img.shields.io/badge/Developer-Vortex%20Teams-8B5CF6?style=for-the-badge)
 
 </p><p align="center">
-  <img src="./assets/vortex-utility-banner.png" width="100%" alt="Vortex Utility Banner" />
-</p><p align="center">""Platform" (https://img.shields.io/badge/Platform-Paper%20%7C%20Purpur-00D9FF?style=for-the-badge)" (#)
-""Java" (https://img.shields.io/badge/Java-25-orange?style=for-the-badge&logo=openjdk)" (#)
-""Minecraft" (https://img.shields.io/badge/Minecraft-26.3-55CC55?style=for-the-badge&logo=minecraft)" (#)
-""Developer" (https://img.shields.io/badge/Developer-Vortex%20Teams-8B5CF6?style=for-the-badge)" (#)
+  <img src="assets/vortex-utility-banner.png" width="100%" alt="VortexUtility Banner">
+</p><p align="center">Developed with ❤️ by VORTEX TEAMS
+
+Building Better Minecraft Experiences.
 
 </p>---
 
-✦ ABOUT VORTEX UTILITY
+🌌 ABOUT VORTEX UTILITY
 
-VortexUtility is a premium-style Minecraft utility plugin developed by Vortex Teams.
+VortexUtility is an advanced Minecraft utility plugin developed by Vortex Teams.
 
-Designed to bring essential server utilities into one powerful, lightweight, and customizable system.
+Designed to combine essential server utilities into one modern, lightweight, and customizable system.
 
-From advanced Random Teleport to Custom Ender Chest, everything is built to deliver a cleaner and better gameplay experience.
+From intelligent Random Teleport to Custom Ender Chest, VortexUtility brings powerful features and a clean gameplay experience to your Minecraft server.
 
 Your Server. Your System. Your Experience.
 
@@ -33,19 +33,19 @@ Your Server. Your System. Your Experience.
 
 🌍 ADVANCED RANDOM TELEPORT
 
-A modern Random Teleport system with intelligent location searching.
+Explore the world with an advanced Random Teleport system.
 
 - Multi-world support.
 - Overworld, Nether & The End.
 - Modern interactive RTP GUI.
 - Customizable teleport distance.
-- Countdown with Title animation.
+- Countdown with Title display.
 - Anti-movement cancellation.
 - Safe location detection.
 - Anti-duplicate RTP history.
 - Per-world coordinate boundaries.
-- Player distance protection.
-- Cooldown management.
+- Minimum distance from other players.
+- Individual player cooldown.
 - Asynchronous chunk loading.
 - No forced generation of new chunks.
 
@@ -58,39 +58,54 @@ A flexible storage system with permission-based capacity.
 - Up to 54 inventory slots.
 - UUID-based player storage.
 - Persistent item data.
-- Permission-based access.
+- Permission-based capacity.
+- Saved player inventory data.
 
 ⚙️ SMART CONFIGURATION
 
-Complete control over the plugin.
+Take control of your plugin settings.
 
 - Separate configuration files.
-- Custom messages.
-- Custom GUI appearance.
+- Custom messages and notifications.
+- Configurable GUI appearance.
 - Per-world RTP settings.
-- Configurable cooldown.
-- Adjustable search attempts.
-- Real-time configuration reload.
+- Adjustable cooldown.
+- Configurable search attempts.
+- Concurrent RTP search limits.
+- Reload configuration without restarting the server.
 
 ---
 
 🎨 GUI SHOWCASE
 
-RTP WORLD SELECTION
+WORLD SELECTION
 
-Choose your destination dimension through a modern inventory interface.
+Choose your destination dimension.
 
-RTP DISTANCE SELECTION
+- OVERWORLD
+- THE NETHER
+- THE END
 
-Select your preferred teleport distance.
+DISTANCE SELECTION
 
-TELEPORT COUNTDOWN
+Choose your preferred teleport distance.
 
-Stay still while the countdown is running. Moving cancels the teleportation.
+- 500 Blocks
+- 1,000 Blocks
+- 2,500 Blocks
+- 5,000 Blocks
+
+Available distances are also restricted by each world's configuration.
+
+RTP COUNTDOWN
+
+Stay still while the countdown is running.
+
+Moving during the countdown will automatically cancel the teleportation.
 
 CUSTOM ENDER CHEST
 
-A dedicated storage interface with customizable capacity.
+A dedicated storage interface with permission-based inventory capacity.
 
 ---
 
@@ -116,7 +131,7 @@ Command| Description
 GENERAL PERMISSIONS
 
 Permission| Description
-"vortexutility.rtp"| Access RTP system
+"vortexutility.rtp"| Access Random Teleport
 "vortexutility.ec"| Access Ender Chest
 "vortexutility.admin"| Plugin administration
 
@@ -134,18 +149,21 @@ Permission| Capacity
 
 📂 CONFIGURATION STRUCTURE
 
-plugins/
-└── VortexUtility/
-    ├── config.yml
-    ├── messages.yml
-    ├── rtp.yml
-    ├── ec.yml
-    │
-    └── data/
-        └── enderchests/
+VortexUtility/
+│
+├── config.yml
+├── messages.yml
+├── rtp.yml
+├── ec.yml
+│
+└── data/
+    └── enderchests/
+        └── <UUID>.yml
 
-File| Function
-"config.yml"| Main configuration
+CONFIGURATION FILES
+
+File| Description
+"config.yml"| Main plugin configuration
 "messages.yml"| Messages and notifications
 "rtp.yml"| Random Teleport settings
 "ec.yml"| Ender Chest settings
@@ -153,15 +171,57 @@ File| Function
 
 ---
 
-🚀 INSTALLATION
+⚙️ RTP CONFIGURATION
+
+VortexUtility provides flexible settings for controlling the RTP system.
+
+GENERAL SETTINGS
+
+Setting| Description
+"cooldown-seconds"| RTP cooldown duration
+"countdown-seconds"| Teleport countdown
+"max-concurrent-searches"| Maximum simultaneous RTP searches
+
+HISTORY SETTINGS
+
+Setting| Description
+"history.enabled"| Enable RTP history
+"history.max-locations"| Maximum saved locations
+"history.minimum-distance"| Minimum distance from previous locations
+
+PERFORMANCE SETTINGS
+
+Setting| Description
+"performance.max-attempts"| Maximum location search attempts
+"performance.async-chunk-loading"| Enable asynchronous chunk loading
+"performance.generate-new-chunks"| New chunk generation is disabled internally
+
+WORLD SETTINGS
+
+Each world can have its own configuration:
+
+- Enable or disable RTP.
+- Center coordinates.
+- Minimum and maximum X/Z boundaries.
+- Minimum and maximum teleport distance.
+- Search attempts.
+- Minimum distance from other players.
+
+IMPORTANT: Use Chunky to pregenerate your RTP area before enabling RTP. Make sure the configured coordinate boundaries match the pregenerated area.
+
+---
+
+📥 INSTALLATION
+
+Follow these steps to install VortexUtility.
 
 STEP 01 — DOWNLOAD
 
-Download the latest "VortexUtility.jar".
+Download the latest "VortexUtility.jar" from the Releases section.
 
-STEP 02 — INSTALL
+STEP 02 — UPLOAD
 
-Place the plugin inside your server's "plugins" folder.
+Place the JAR file into your server's "plugins/" folder.
 
 STEP 03 — RESTART
 
@@ -169,15 +229,23 @@ Restart your Minecraft server.
 
 STEP 04 — CONFIGURE
 
-Edit the configuration files inside "plugins/VortexUtility/".
+Open "plugins/VortexUtility/" and customize the configuration files.
 
-STEP 05 — ENJOY
+STEP 05 — FINISH
 
-Use "/rtp" or "/ec" to start using VortexUtility.
+Use the available commands and enjoy VortexUtility!
 
 ---
 
-⚡ PERFORMANCE & DESIGN
+🧩 REQUIREMENTS
+
+- Minecraft Server: Paper / Purpur.
+- Java: 25 for the current project build.
+- Chunky: Recommended for RTP area pregeneration.
+
+---
+
+🚀 PERFORMANCE & OPTIMIZATION
 
 VortexUtility is designed with performance and usability in mind.
 
@@ -185,41 +253,45 @@ VortexUtility is designed with performance and usability in mind.
 - Limited concurrent RTP searches.
 - Asynchronous chunk loading.
 - No forced new chunk generation.
-- Configurable pregenerated RTP boundaries.
-- Lightweight player history management.
+- Configurable pregenerated boundaries.
+- Limited RTP history per player.
+- Separate world configurations.
 
-Note: Pregenerate your RTP area using Chunky and configure the boundaries accordingly.
+Our goal is to provide useful features without unnecessary server overhead.
 
 ---
 
 💎 WHY VORTEX UTILITY?
 
-Feature| Benefit
-Advanced RTP| Better exploration experience
-Custom GUI| Clean and modern interface
-Safe Location| Reduce unsafe teleport destinations
-Multi-World| Support multiple dimensions
+Feature| Experience
+Advanced RTP| Intelligent random teleport
+Modern GUI| Clean and interactive menus
+Safe Location| Safer teleport destinations
+Multi-World| Multiple dimension support
 Custom EC| Flexible player storage
-Smart Config| Easy server management
+Smart Configuration| Easy server management
+Performance Focus| Controlled resource usage
 
 ---
 
 🏆 DEVELOPED BY
 
-<p align="center">VORTEX TEAMS
+<p align="center">⚡ VORTEX TEAMS
 
 MINECRAFT PLUGIN DEVELOPMENT
 
-Creating powerful systems and better experiences for Minecraft servers.
+We build systems, utilities, and solutions for modern Minecraft servers.
 
-Innovation. Performance. Quality.
+INNOVATION • PERFORMANCE • QUALITY
 
 </p>---
 
-<p align="center">⚡ VORTEX UTILITY
+<p align="center">VORTEX UTILITY
 
-YOUR SERVER. YOUR SYSTEM. YOUR EXPERIENCE.
+ONE PLUGIN. MORE POSSIBILITIES.
 
-Developed with ❤️ by Vortex Teams
+Developed with ❤️ by VORTEX TEAMS
+
+Your Server. Your System. Your Experience.
 
 </p>
