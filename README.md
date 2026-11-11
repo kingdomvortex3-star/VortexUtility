@@ -1,136 +1,172 @@
-⚡ VortexUtility
+⚡ VORTEX UTILITY
 
-Modern • Lightweight • Advanced Minecraft Utility Plugin
+Advanced • Modern • Lightweight Minecraft Utility Plugin
 
-VortexUtility adalah plugin utilitas Minecraft yang dirancang untuk meningkatkan pengalaman bermain melalui sistem Random Teleport (RTP), GUI modern, dan Ender Chest dengan kapasitas berdasarkan permission.
+<p align="center">One Plugin. More Possibilities.
+
+Dibangun untuk menghadirkan pengalaman bermain Minecraft yang lebih praktis, modern, dan nyaman.
+
+<br>Developed with ❤️ by VORTEX TEAMS
+
+</p>---
+
+🌌 ABOUT
+
+VortexUtility merupakan plugin utilitas Minecraft yang dikembangkan oleh Vortex Teams untuk mendukung kebutuhan server Survival, SMP, RPG, dan berbagai mode permainan lainnya.
+
+Menghadirkan sistem Random Teleport (RTP) modern, Custom Ender Chest, GUI interaktif, serta konfigurasi yang fleksibel dalam satu plugin.
+
+Dirancang dengan memperhatikan performa, keamanan lokasi, dan kemudahan pengelolaan server.
 
 ---
 
-✨ Fitur Utama
+✨ MAIN FEATURES
 
 🌍 Advanced Random Teleport
 
-- Mendukung Overworld, Nether, dan The End.
-- GUI pemilihan dunia dan jarak.
-- Countdown sebelum teleportasi.
-- Teleportasi dibatalkan jika pemain bergerak.
-- Pemeriksaan lokasi aman.
-- Menghindari lokasi RTP yang pernah digunakan.
+- Multi-world support: Overworld, Nether, dan The End.
+- Modern GUI untuk pemilihan dunia dan jarak.
+- Countdown teleport dengan tampilan Title.
+- Auto-cancel ketika pemain bergerak.
+- Safe location detection.
+- Anti-duplicate RTP location.
 - Cooldown per pemain.
-- Batas jarak dan area RTP yang dapat dikonfigurasi.
-- Pencarian lokasi menggunakan chunk yang sudah tersedia.
-- Tidak meminta pembuatan chunk baru.
+- Pengaturan area dan jarak setiap world.
+- Asynchronous chunk loading.
+- Tidak meminta generate chunk baru.
 
 📦 Custom Ender Chest
 
-- GUI Ender Chest khusus.
-- Kapasitas berdasarkan permission.
-- Mendukung penyimpanan hingga 54 slot.
-- Data tersimpan berdasarkan UUID pemain.
-- Isi inventory tetap tersimpan meskipun kapasitas permission berubah.
+- Custom Ender Chest GUI.
+- Sistem kapasitas berdasarkan permission.
+- Mendukung kapasitas hingga 54 slot.
+- Penyimpanan data berdasarkan UUID.
+- Data item tetap dipertahankan ketika kapasitas berubah.
 
 ⚙️ Configuration & Performance
 
-- Konfigurasi terpisah untuk setiap sistem.
-- Pengaturan pesan dan notifikasi.
-- Pengaturan batas RTP per world.
-- Batas pencarian RTP bersamaan.
-- Dukungan asynchronous chunk loading.
+- Konfigurasi terpisah dan mudah dikelola.
+- Custom messages dan notifikasi.
+- Pengaturan RTP setiap world.
+- Pembatasan pencarian RTP bersamaan.
 - Reload konfigurasi tanpa restart server.
+- Sistem pencarian lokasi dengan batas percobaan.
 
 ---
 
-📸 Preview
+🖥️ GUI PREVIEW
 
-RTP World Selection
+World Selection
 
-Pilih dimensi yang ingin dijelajahi.
+Memilih dimensi tujuan teleportasi.
 
-RTP Distance Selection
+Distance Selection
 
-Pilih jarak teleportasi sesuai kebutuhan.
+Menentukan jarak perjalanan sesuai kebutuhan.
 
 RTP Countdown
 
-Pemain harus tetap diam selama hitungan mundur.
+Pemain harus tetap diam sampai countdown selesai.
 
 ---
 
-📥 Installation
+📥 INSTALLATION
 
-1. Download file "VortexUtility.jar" dari bagian Releases.
-2. Masukkan file ke folder "plugins/".
-3. Restart server.
-4. Buka folder "plugins/VortexUtility/".
-5. Sesuaikan konfigurasi sesuai kebutuhan.
-6. Jalankan "/vortexutility reload" setelah mengubah konfigurasi.
+Ikuti langkah berikut untuk memasang VortexUtility.
+
+1. Download
+
+Unduh "VortexUtility.jar" dari GitHub Releases.
+
+2. Upload
+
+Masukkan file plugin ke folder:
+
+"plugins/"
+
+3. Restart
+
+Restart server Minecraft.
+
+4. Configure
+
+Buka folder konfigurasi:
+
+"plugins/VortexUtility/"
+
+5. Finish
+
+Sesuaikan konfigurasi dan jalankan:
+
+"/vortexutility reload"
 
 ---
 
-🗂️ Configuration
+📂 DIRECTORY STRUCTURE
 
 plugins/
 └── VortexUtility/
+    │
     ├── config.yml
     ├── messages.yml
     ├── rtp.yml
     ├── ec.yml
+    │
     └── data/
         └── enderchests/
             └── <UUID>.yml
 
-File| Fungsi
-"config.yml"| Pengaturan umum dan GUI
-"messages.yml"| Pesan dan notifikasi
-"rtp.yml"| Pengaturan sistem RTP
-"ec.yml"| Pengaturan Ender Chest
-"data/"| Penyimpanan data pemain
-
-RTP Configuration
-
-Beberapa pengaturan yang tersedia:
-
-- "cooldown-seconds"
-- "max-concurrent-searches"
-- "countdown-seconds"
-- "history.enabled"
-- "history.max-locations"
-- "history.minimum-distance"
-- "performance.max-attempts"
-- "performance.async-chunk-loading"
-- "worlds.<world>.enabled"
-- "worlds.<world>.min-x"
-- "worlds.<world>.max-x"
-- "worlds.<world>.min-z"
-- "worlds.<world>.max-z"
-
-Penting: Sesuaikan batas koordinat RTP dengan area yang sudah di-pregenerate menggunakan Chunky. RTP tidak dimaksudkan untuk menghasilkan chunk baru.
+File| Description
+"config.yml"| General configuration
+"messages.yml"| Messages and notifications
+"rtp.yml"| Random Teleport settings
+"ec.yml"| Ender Chest settings
+"data/"| Player data storage
 
 ---
 
-⌨️ Commands
+⚙️ RTP CONFIGURATION
 
-Command| Keterangan
-"/rtp"| Membuka GUI Random Teleport
-"/ec"| Membuka Custom Ender Chest
-"/enderchest"| Alternatif membuka Ender Chest
-"/vortexutility reload"| Reload konfigurasi
-"/vu reload"| Alias reload
+VortexUtility menyediakan pengaturan RTP yang fleksibel.
+
+Configuration| Description
+"cooldown-seconds"| RTP cooldown
+"countdown-seconds"| Countdown duration
+"max-concurrent-searches"| Maximum simultaneous searches
+"history.enabled"| Enable RTP history
+"history.max-locations"| Maximum saved locations
+"history.minimum-distance"| Minimum distance from previous RTP
+"performance.max-attempts"| Maximum location search attempts
+"performance.async-chunk-loading"| Asynchronous chunk loading
+"worlds.<world>.enabled"| Enable or disable a world
+
+Important: Sesuaikan batas koordinat RTP dengan area yang telah di-pregenerate menggunakan Chunky. Sistem RTP tidak meminta pembuatan chunk baru.
 
 ---
 
-🔐 Permissions
+⌨️ COMMANDS
 
-General
+Command| Description
+"/rtp"| Open RTP GUI
+"/ec"| Open Custom Ender Chest
+"/enderchest"| Open Custom Ender Chest
+"/vortexutility reload"| Reload plugin configuration
+"/vu reload"| Reload alias
 
-Permission| Keterangan
-"vortexutility.rtp"| Menggunakan RTP
-"vortexutility.ec"| Menggunakan Ender Chest
-"vortexutility.admin"| Akses administrasi plugin
+---
 
-Ender Chest Tiers
+🔐 PERMISSIONS
 
-Permission| Kapasitas
+General Permissions
+
+Permission| Description
+"vortexutility.rtp"| Access Random Teleport
+"vortexutility.ec"| Access Ender Chest
+"vortexutility.admin"| Plugin administration
+
+Ender Chest Permissions
+
+Permission| Capacity
 "vortexutility.ec.1"| 9 Slots
 "vortexutility.ec.2"| 18 Slots
 "vortexutility.ec.3"| 27 Slots
@@ -140,25 +176,39 @@ Permission| Kapasitas
 
 ---
 
-🛠️ Requirements
+🧩 REQUIREMENTS
 
-- Minecraft Server: Paper / Purpur
-- Java: Sesuai versi build plugin
-- Chunky: Direkomendasikan untuk pregeneration area RTP
-
----
-
-💎 Vortex Network
-
-Developed by Vortex Network
-
-Built for modern Minecraft servers.
-
-- Advanced Utility System
-- Modern GUI Experience
-- Configurable Features
-- Performance-Oriented Design
+- Paper / Purpur
+- Java version sesuai build plugin
+- Chunky (recommended for RTP pregeneration)
 
 ---
 
-VortexUtility — One Plugin, More Possibilities.
+🚀 DEVELOPMENT
+
+Project: VortexUtility
+
+Developer: Vortex Teams
+
+Category: Minecraft Utility Plugin
+
+Platform: Paper / Purpur
+
+---
+
+💠 VORTEX TEAMS
+
+Kami membangun berbagai solusi dan sistem untuk kebutuhan server Minecraft.
+
+VORTEX TEAMS
+Building Better Minecraft Experiences.
+
+---
+
+<p align="center">⚡ VORTEX UTILITY
+
+Developed by VORTEX TEAMS
+
+Powerful Features. Clean Experience. Better Performance.
+
+</p>
