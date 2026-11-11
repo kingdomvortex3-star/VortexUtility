@@ -1,24 +1,35 @@
-⚡ VORTEX UTILITY
 
-ADVANCED • MODERN • LIGHTWEIGHT
-
-ONE PLUGIN. MORE POSSIBILITIES.
-
-"Platform" (https://img.shields.io/badge/Platform-Paper%20%7C%20Purpur-00D9FF?style=for-the-badge)
-
-"Java" (https://img.shields.io/badge/Java-25-orange?style=for-the-badge&logo=openjdk)
-
-"Minecraft" (https://img.shields.io/badge/Minecraft-26.3-55CC55?style=for-the-badge&logo=minecraft)
-
-"Developer" (https://img.shields.io/badge/Developer-Vortex%20Teams-8B5CF6?style=for-the-badge)
+# ⚡ VORTEX UTILITY
 
 <p align="center">
-  <img src="assets/vortex-utility-banner.png.png" width="100%" alt="VortexUtility Banner">
-</p><p align="center">Developed with ❤️ by VORTEX TEAMS
 
-Building Better Minecraft Experiences.
+<strong>ADVANCED • MODERN • LIGHTWEIGHT</strong>
 
-</p>---
+<br>
+
+<strong>ONE PLUGIN. MORE POSSIBILITIES.</strong>
+
+<br><br>
+
+<img src="https://img.shields.io/badge/Platform-Paper%20%7C%20Purpur-00D9FF?style=for-the-badge" />
+<img src="https://img.shields.io/badge/Java-25-orange?style=for-the-badge&logo=openjdk" />
+<img src="https://img.shields.io/badge/Minecraft-26.3-55CC55?style=for-the-badge&logo=minecraft" />
+<img src="https://img.shields.io/badge/Developer-Vortex%20Teams-8B5CF6?style=for-the-badge" />
+
+<br><br>
+
+<img src="assets/vortex-utility-banner.png.png" width="100%" alt="VortexUtility Banner">
+
+<br>
+
+<strong>Developed with ❤️ by VORTEX TEAMS</strong>
+
+<em>Building Better Minecraft Experiences.</em>
+
+</p>
+
+---
+
 
 ◆ ABOUT VORTEX UTILITY
 
