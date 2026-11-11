@@ -78,10 +78,9 @@ A customizable storage system with permission-based capacity.
 - Search attempt limits.
 - Concurrent RTP search limits.
 - Configuration reload without server restart.
-
 ---
 
-🖥️ COMMANDS
+⌨️ COMMANDS
 
 PLAYER COMMANDS
 
@@ -116,6 +115,54 @@ Permission| Storage Capacity
 "vortexutility.ec.4"| 36 Slots
 "vortexutility.ec.5"| 45 Slots
 "vortexutility.ec.6"| 54 Slots
+
+---
+
+📂 CONFIGURATION
+
+VortexUtility automatically generates its configuration files after the first server startup.
+
+DIRECTORY STRUCTURE
+
+plugins/
+└── VortexUtility/
+    ├── config.yml
+    ├── messages.yml
+    ├── rtp.yml
+    ├── ec.yml
+    └── data/
+        └── enderchests/
+            └── <UUID>.yml
+
+CONFIGURATION FILES
+
+File| Purpose
+"config.yml"| General settings and GUI
+"messages.yml"| Messages and notifications
+"rtp.yml"| Random Teleport settings
+"ec.yml"| Ender Chest settings
+"data/"| Player storage data
+
+RTP WORLD CONFIGURATION
+
+Each world can be configured independently.
+
+- World activation.
+- Center coordinates.
+- Minimum and maximum X/Z boundaries.
+- Minimum and maximum teleport distance.
+- Maximum search attempts.
+- Minimum distance from other players.
+
+PERFORMANCE SETTINGS
+
+- Maximum concurrent RTP searches.
+- Maximum location search attempts.
+- Asynchronous chunk loading.
+- RTP history management.
+- New chunk generation disabled internally.
+
+«IMPORTANT: Pregenerate your RTP areas using Chunky. Make sure the configured coordinate boundaries match the pregenerated area in each world.»
 
 ---
 
