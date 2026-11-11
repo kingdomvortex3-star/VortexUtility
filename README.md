@@ -7,6 +7,8 @@
 
 <br>
 
+<img src="assets/vortex-utility-banner.png.png" width="100%" alt="VortexUtility Banner">
+
 <strong>ONE PLUGIN. MORE POSSIBILITIES.</strong>
 
 <br><br>
@@ -17,8 +19,6 @@
 <img src="https://img.shields.io/badge/Developer-Vortex%20Teams-8B5CF6?style=for-the-badge" />
 
 <br><br>
-
-<img src="assets/vortex-utility-banner.png.png" width="100%" alt="VortexUtility Banner">
 
 <br>
 
