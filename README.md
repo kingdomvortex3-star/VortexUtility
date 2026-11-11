@@ -7,8 +7,6 @@
 
 **ONE PLUGIN. MORE POSSIBILITIES.**
 
-<img src="assets/vortex-utility-banner.png" width="100%" alt="VortexUtility Banner">
-
 ![Paper](https://img.shields.io/badge/Platform-Paper%20%7C%20Purpur-00D9FF?style=for-the-badge)
 ![Java](https://img.shields.io/badge/Java-25-orange?style=for-the-badge&logo=openjdk)
 ![Minecraft](https://img.shields.io/badge/Minecraft-26.3-55CC55?style=for-the-badge&logo=minecraft)
