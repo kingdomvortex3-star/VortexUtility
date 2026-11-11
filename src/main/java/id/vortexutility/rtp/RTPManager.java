@@ -11,6 +11,8 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -31,11 +33,13 @@ public final class RTPManager {
     private final Map<UUID, Long> cooldowns =
             new HashMap<>();
 
-    /*
-     * History disimpan berdasarkan UUID dan world.
-     * Semua akses history dilakukan di main thread.
-     */
     private final Map<String, Deque<Location>> history =
+            new HashMap<>();
+
+    private final Map<UUID, BukkitTask> countdownTasks =
+            new HashMap<>();
+
+    private final Map<UUID, Location> countdownLocations =
             new HashMap<>();
 
     private volatile int maxConcurrent;
@@ -43,6 +47,7 @@ public final class RTPManager {
     private volatile int maxAttempts;
     private volatile int historyLimit;
     private volatile int historyDistance;
+    private volatile int countdownSeconds;
 
     private volatile boolean historyEnabled;
     private volatile boolean asyncChunkLoading;
@@ -58,16 +63,12 @@ public final class RTPManager {
 
         maxConcurrent = Math.max(
                 1,
-                config.getInt(
-                        "max-concurrent-searches", 2
-                )
+                config.getInt("max-concurrent-searches", 2)
         );
 
         cooldownSeconds = Math.max(
                 0,
-                config.getInt(
-                        "cooldown-seconds", 60
-                )
+                config.getInt("cooldown-seconds", 60)
         );
 
         maxAttempts = Math.max(
@@ -105,7 +106,14 @@ public final class RTPManager {
                 "performance.async-chunk-loading", true
         );
 
-        // generate-new-chunks selalu diperlakukan false.
+        countdownSeconds = Math.max(
+                0,
+                Math.min(
+                        30,
+                        config.getInt("countdown-seconds", 5)
+                )
+        );
+
         if (config.getBoolean(
                 "performance.generate-new-chunks", false)) {
 
@@ -136,38 +144,27 @@ public final class RTPManager {
 
         UUID uuid = player.getUniqueId();
 
-        // Cooldown check.
         long now = System.currentTimeMillis();
 
-        long readyAt = cooldowns.getOrDefault(
-                uuid, 0L
-        );
+        long readyAt = cooldowns.getOrDefault(uuid, 0L);
 
         if (readyAt > now) {
             player.sendMessage(
-                    MessageUtil.message(
-                            plugin,
-                            "rtp.cooldown"
-                    ).replace(
-                            "%time%",
-                            String.valueOf(
-                                    (readyAt - now + 999) / 1000
+                    MessageUtil.message(plugin, "rtp.cooldown")
+                            .replace(
+                                    "%time%",
+                                    String.valueOf(
+                                            (readyAt - now + 999) / 1000
+                                    )
                             )
-                    )
             );
             return;
         }
 
-        // Concurrent RTP limit.
         if (searching.size() >= maxConcurrent
                 || !searching.add(uuid)) {
 
-            MessageUtil.send(
-                    plugin,
-                    player,
-                    "rtp.busy"
-            );
-
+            MessageUtil.send(plugin, player, "rtp.busy");
             return;
         }
 
@@ -184,23 +181,14 @@ public final class RTPManager {
                 || !section.getBoolean("enabled", false)) {
 
             searching.remove(uuid);
-
             MessageUtil.send(
-                    plugin,
-                    player,
-                    "rtp.world-disabled"
+                    plugin, player, "rtp.world-disabled"
             );
-
             return;
         }
 
-        int centerX = section.getInt(
-                "center-x", 0
-        );
-
-        int centerZ = section.getInt(
-                "center-z", 0
-        );
+        int centerX = section.getInt("center-x", 0);
+        int centerZ = section.getInt("center-z", 0);
 
         int minX = section.getInt("min-x");
         int maxX = section.getInt("max-x");
@@ -249,14 +237,11 @@ public final class RTPManager {
                             "&cKonfigurasi batas RTP tidak valid."
                     )
             );
-
             return;
         }
 
         MessageUtil.send(
-                plugin,
-                player,
-                "rtp.searching"
+                plugin, player, "rtp.searching"
         );
 
         tryCandidate(
@@ -302,13 +287,11 @@ public final class RTPManager {
         ThreadLocalRandom random =
                 ThreadLocalRandom.current();
 
-        // Random angle.
         double angle = random.nextDouble(
                 0,
                 Math.PI * 2
         );
 
-        // Random distance.
         int distance = random.nextInt(
                 minDistance,
                 maxDistance + 1
@@ -322,7 +305,6 @@ public final class RTPManager {
                 Math.sin(angle) * distance
         );
 
-        // Pastikan masih dalam batas Chunky.
         if (x < minX || x > maxX
                 || z < minZ || z > maxZ) {
 
@@ -331,34 +313,25 @@ public final class RTPManager {
                     centerX, centerZ,
                     minX, maxX, minZ, maxZ,
                     minDistance, maxDistance,
-                    minPlayerDistance,
-                    remaining
+                    minPlayerDistance, remaining
             );
-
             return;
         }
 
-        // Hindari lokasi yang pernah digunakan.
-        if (isRecentlyUsed(world, x, z)) {
+        if (isRecentlyUsed(player, world, x, z)) {
             retry(
                     player, world,
                     centerX, centerZ,
                     minX, maxX, minZ, maxZ,
                     minDistance, maxDistance,
-                    minPlayerDistance,
-                    remaining
+                    minPlayerDistance, remaining
             );
-
             return;
         }
 
         int chunkX = x >> 4;
         int chunkZ = z >> 4;
 
-        /*
-         * Jika async loading dimatikan,
-         * hanya gunakan chunk yang sudah loaded.
-         */
         if (!asyncChunkLoading) {
 
             if (!world.isChunkLoaded(chunkX, chunkZ)) {
@@ -367,37 +340,21 @@ public final class RTPManager {
                         centerX, centerZ,
                         minX, maxX, minZ, maxZ,
                         minDistance, maxDistance,
-                        minPlayerDistance,
-                        remaining
+                        minPlayerDistance, remaining
                 );
-
                 return;
             }
 
             checkCandidate(
-                    player,
-                    world,
-                    x,
-                    z,
-                    centerX,
-                    centerZ,
-                    minX,
-                    maxX,
-                    minZ,
-                    maxZ,
-                    minDistance,
-                    maxDistance,
-                    minPlayerDistance,
-                    remaining
+                    player, world, x, z,
+                    centerX, centerZ,
+                    minX, maxX, minZ, maxZ,
+                    minDistance, maxDistance,
+                    minPlayerDistance, remaining
             );
-
             return;
         }
 
-        /*
-         * false = tidak meminta generate chunk baru.
-         * Chunk yang belum tersedia akan ditolak.
-         */
         world.getChunkAtAsync(
                 chunkX,
                 chunkZ,
@@ -421,28 +378,17 @@ public final class RTPManager {
                                     centerX, centerZ,
                                     minX, maxX, minZ, maxZ,
                                     minDistance, maxDistance,
-                                    minPlayerDistance,
-                                    remaining
+                                    minPlayerDistance, remaining
                             );
-
                             return;
                         }
 
                         checkCandidate(
-                                player,
-                                world,
-                                x,
-                                z,
-                                centerX,
-                                centerZ,
-                                minX,
-                                maxX,
-                                minZ,
-                                maxZ,
-                                minDistance,
-                                maxDistance,
-                                minPlayerDistance,
-                                remaining
+                                player, world, x, z,
+                                centerX, centerZ,
+                                minX, maxX, minZ, maxZ,
+                                minDistance, maxDistance,
+                                minPlayerDistance, remaining
                         );
                     }
             );
@@ -470,11 +416,7 @@ public final class RTPManager {
             return;
         }
 
-        Location safe = findSafeLocation(
-                world,
-                x,
-                z
-        );
+        Location safe = findSafeLocation(world, x, z);
 
         if (safe == null) {
             retry(
@@ -482,14 +424,12 @@ public final class RTPManager {
                     centerX, centerZ,
                     minX, maxX, minZ, maxZ,
                     minDistance, maxDistance,
-                    minPlayerDistance,
-                    remaining
+                    minPlayerDistance, remaining
             );
-
             return;
         }
 
-        if (isRecentlyUsed(world, x, z)
+        if (isRecentlyUsed(player, world, x, z)
                 || tooCloseToPlayers(
                         safe,
                         minPlayerDistance,
@@ -501,27 +441,192 @@ public final class RTPManager {
                     centerX, centerZ,
                     minX, maxX, minZ, maxZ,
                     minDistance, maxDistance,
-                    minPlayerDistance,
-                    remaining
+                    minPlayerDistance, remaining
             );
-
             return;
         }
 
-        player.teleportAsync(safe)
+        startCountdown(player, safe);
+    }
+
+    /*
+     * COUNTDOWN
+     */
+
+    private void startCountdown(
+            Player player,
+            Location destination
+    ) {
+        if (!player.isOnline()) {
+            searching.remove(player.getUniqueId());
+            return;
+        }
+
+        if (countdownSeconds <= 0) {
+            teleportPlayer(player, destination);
+            return;
+        }
+
+        UUID uuid = player.getUniqueId();
+
+        Location startingLocation =
+                player.getLocation().clone();
+
+        countdownLocations.put(
+                uuid,
+                startingLocation
+        );
+
+        player.sendTitle(
+                MessageUtil.color("&b&lRTP"),
+                MessageUtil.color(
+                        "&7Jangan bergerak!"
+                ),
+                0,
+                25,
+                0
+        );
+
+        BukkitRunnable runnable = new BukkitRunnable() {
+
+            private int elapsedTicks = 0;
+
+            @Override
+            public void run() {
+
+                if (!player.isOnline()) {
+                    cancel();
+                    countdownTasks.remove(uuid);
+                    countdownLocations.remove(uuid);
+                    searching.remove(uuid);
+                    return;
+                }
+
+                Location current =
+                        player.getLocation();
+
+                Location start =
+                        countdownLocations.get(uuid);
+
+                if (start == null
+                        || !current.getWorld().equals(
+                                start.getWorld()
+                        )
+                        || current.distanceSquared(start) > 0.0001) {
+
+                    cancel();
+
+                    countdownTasks.remove(uuid);
+                    countdownLocations.remove(uuid);
+                    searching.remove(uuid);
+
+                    player.sendTitle(
+                            MessageUtil.color(
+                                    "&c&lRTP DIBATALKAN!"
+                            ),
+                            MessageUtil.color(
+                                    "&7Kamu bergerak saat countdown."
+                            ),
+                            0,
+                            40,
+                            10
+                    );
+
+                    MessageUtil.send(
+                            plugin,
+                            player,
+                            "rtp.moved"
+                    );
+
+                    MessageUtil.play(
+                            plugin,
+                            player,
+                            "fail"
+                    );
+                    return;
+                }
+
+                if (elapsedTicks >= countdownSeconds * 20) {
+
+                    cancel();
+
+                    countdownTasks.remove(uuid);
+                    countdownLocations.remove(uuid);
+
+                    teleportPlayer(
+                            player,
+                            destination
+                    );
+                    return;
+                }
+
+                if (elapsedTicks % 20 == 0) {
+
+                    int remaining =
+                            countdownSeconds
+                                    - (elapsedTicks / 20);
+
+                    player.sendTitle(
+                            MessageUtil.color(
+                                    "&b&l" + remaining
+                            ),
+                            MessageUtil.color(
+                                    "&7Jangan bergerak!"
+                            ),
+                            0,
+                            20,
+                            0
+                    );
+                }
+
+                elapsedTicks++;
+            }
+        };
+
+        BukkitTask task = runnable.runTaskTimer(
+                plugin,
+                0L,
+                1L
+        );
+
+        countdownTasks.put(uuid, task);
+    }
+
+    private void teleportPlayer(
+            Player player,
+            Location destination
+    ) {
+        if (!player.isOnline()) {
+            searching.remove(player.getUniqueId());
+            return;
+        }
+
+        player.sendTitle(
+                MessageUtil.color("&a&lTELEPORTING"),
+                MessageUtil.color("&7Bersiaplah!"),
+                0,
+                20,
+                5
+        );
+
+        player.teleportAsync(destination)
                 .whenComplete((success, error) -> {
 
                     Bukkit.getScheduler().runTask(
                             plugin,
                             () -> finishTeleport(
                                     player,
-                                    safe,
+                                    destination,
                                     success,
                                     error
                             )
                     );
                 });
     }
+
+    /*
+     * RETRY
+     */
 
     private void retry(
             Player player,
@@ -554,7 +659,7 @@ public final class RTPManager {
     }
 
     /*
-     * SAFE LOCATION CHECK
+     * SAFE LOCATION
      */
 
     private Location findSafeLocation(
@@ -582,7 +687,6 @@ public final class RTPManager {
         );
 
         if (!ground.getType().isSolid()) return null;
-
         if (isHazard(ground.getType())) return null;
 
         if (!feet.isPassable()
@@ -617,7 +721,7 @@ public final class RTPManager {
     }
 
     /*
-     * HISTORY CHECK
+     * RTP HISTORY
      */
 
     private String historyKey(
@@ -625,20 +729,6 @@ public final class RTPManager {
             World world
     ) {
         return uuid + ":" + world.getUID();
-    }
-
-    private boolean isRecentlyUsed(
-            World world,
-            int x,
-            int z
-    ) {
-        if (!historyEnabled || historyDistance <= 0) {
-            return false;
-        }
-
-        // Riwayat dicek untuk player yang sedang RTP.
-        // Pemeriksaan dilakukan melalui overload di bawah.
-        return false;
     }
 
     private boolean isRecentlyUsed(
@@ -652,7 +742,10 @@ public final class RTPManager {
         }
 
         Deque<Location> locations = history.get(
-                historyKey(player.getUniqueId(), world)
+                historyKey(
+                        player.getUniqueId(),
+                        world
+                )
         );
 
         if (locations == null || locations.isEmpty()) {
@@ -663,6 +756,7 @@ public final class RTPManager {
                 (double) historyDistance * historyDistance;
 
         for (Location previous : locations) {
+
             double dx = x - previous.getX();
             double dz = z - previous.getZ();
 
@@ -699,7 +793,7 @@ public final class RTPManager {
     }
 
     /*
-     * PLAYER DISTANCE CHECK
+     * PLAYER DISTANCE
      */
 
     private boolean tooCloseToPlayers(
@@ -767,6 +861,11 @@ public final class RTPManager {
                     "rtp.failed"
             );
 
+            MessageUtil.play(
+                    plugin,
+                    player,
+                    "fail"
+            );
             return;
         }
 
@@ -777,6 +876,14 @@ public final class RTPManager {
         );
 
         rememberLocation(player, location);
+
+        player.sendTitle(
+                MessageUtil.color("&a&lRTP BERHASIL!"),
+                MessageUtil.color("&7Selamat menjelajah!"),
+                5,
+                40,
+                10
+        );
 
         MessageUtil.send(
                 plugin,
