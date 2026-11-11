@@ -1,9 +1,18 @@
 
-# Sesuaikan koordinat dengan batas pregeneration Chunky.
-# Angka di bawah hanya contoh.
+# VortexUtility RTP Configuration
 
 cooldown-seconds: 60
 max-concurrent-searches: 2
+
+history:
+  enabled: true
+  max-locations: 10
+  minimum-distance: 500
+
+performance:
+  max-attempts: 12
+  async-chunk-loading: true
+  generate-new-chunks: false
 
 worlds:
   world:
@@ -26,12 +35,15 @@ worlds:
     enabled: false
     center-x: 0
     center-z: 0
+
     min-x: -2500
     max-x: 2500
     min-z: -2500
     max-z: 2500
+
     min-distance: 250
     max-distance: 2500
+
     attempts: 10
     min-player-distance: 50
 
@@ -39,11 +51,14 @@ worlds:
     enabled: false
     center-x: 0
     center-z: 0
+
     min-x: -2000
     max-x: 2000
     min-z: -2000
     max-z: 2000
+
     min-distance: 250
     max-distance: 2000
+
     attempts: 10
     min-player-distance: 50
