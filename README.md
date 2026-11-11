@@ -1,19 +1,29 @@
-⚡ VORTEX UTILITY
 
-<p align="center">ADVANCED MINECRAFT UTILITY SYSTEM
+# ⚡ VORTEX UTILITY
 
-ONE PLUGIN. MORE POSSIBILITIES.
+### ADVANCED MINECRAFT UTILITY SYSTEM
 
-"Platform" (https://img.shields.io/badge/Platform-Paper%20%7C%20Purpur-00D9FF?style=for-the-badge)
-"Java" (https://img.shields.io/badge/Java-25-orange?style=for-the-badge&logo=openjdk)
-"Minecraft" (https://img.shields.io/badge/Minecraft-26.3-55CC55?style=for-the-badge&logo=minecraft)
-"Developer" (https://img.shields.io/badge/Developer-Vortex%20Teams-8B5CF6?style=for-the-badge)
+**ONE PLUGIN. MORE POSSIBILITIES.**
 
-<img src="assets/vortex-utility-banner.png.png" width="100%" alt="VortexUtility Banner">Developed with ❤️ by VORTEX TEAMS
+![Platform](https://img.shields.io/badge/Platform-Paper%20%7C%20Purpur-00D9FF?style=for-the-badge)
+![Java](https://img.shields.io/badge/Java-25-orange?style=for-the-badge&logo=openjdk)
+![Minecraft](https://img.shields.io/badge/Minecraft-26.3-55CC55?style=for-the-badge&logo=minecraft)
+![Developer](https://img.shields.io/badge/Developer-Vortex%20Teams-8B5CF6?style=for-the-badge)
 
-Building Better Minecraft Experiences.
+<p align="center">
+  <img src="assets/vortex-utility-banner.png.png" width="100%" alt="VortexUtility Banner">
+</p>
 
-</p>---
+<p align="center">
+
+**Developed with ❤️ by VORTEX TEAMS**
+
+*Building Better Minecraft Experiences.*
+
+</p>
+
+---
+
 
 ◆ ABOUT THE PROJECT
 
