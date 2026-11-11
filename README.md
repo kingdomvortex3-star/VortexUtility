@@ -1,19 +1,31 @@
-⚡ VORTEX UTILITY
 
-ADVANCED • MODERN • LIGHTWEIGHT
+<div align="center">
 
-ONE PLUGIN. MORE POSSIBILITIES.
+# ⚡ VORTEX UTILITY
 
-<p align="center">"Paper" (https://img.shields.io/badge/Platform-Paper%20%7C%20Purpur-00D9FF?style=for-the-badge)
-"Java" (https://img.shields.io/badge/Java-25-orange?style=for-the-badge&logo=openjdk)
-"Minecraft" (https://img.shields.io/badge/Minecraft-26.3-55CC55?style=for-the-badge&logo=minecraft)
-"Developer" (https://img.shields.io/badge/Developer-Vortex%20Teams-8B5CF6?style=for-the-badge)
+### ADVANCED • MODERN • LIGHTWEIGHT
 
-</p><p align="center">
-  <img src="assets/vortex-utility-banner.png" width="100%" alt="VortexUtility Banner">
-</p><p align="center">Developed with ❤️ by VORTEX TEAMS
+**ONE PLUGIN. MORE POSSIBILITIES.**
 
-Building Better Minecraft Experiences.
+![Paper](https://img.shields.io/badge/Platform-Paper%20%7C%20Purpur-00D9FF?style=for-the-badge)
+![Java](https://img.shields.io/badge/Java-25-orange?style=for-the-badge&logo=openjdk)
+![Minecraft](https://img.shields.io/badge/Minecraft-26.3-55CC55?style=for-the-badge&logo=minecraft)
+![Developer](https://img.shields.io/badge/Developer-Vortex%20Teams-8B5CF6?style=for-the-badge)
+
+<br>
+
+<img src="assets/vortex-utility-banner.png" width="100%" alt="VortexUtility Banner">
+
+<br>
+
+**Developed with ❤️ by VORTEX TEAMS**
+
+*Building Better Minecraft Experiences.*
+
+</div>
+
+---
+
 
 </p>---
 
