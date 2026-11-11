@@ -1,12 +1,8 @@
-VortexUtility
+⚡ VortexUtility
 
-<div align="center"> __     __         _            _   _ _ _ _ _
- \ \   / /__  _ __| |_ _____  _| | | | (_) |_
-  \ \ / / _ \| '__| __/ _ \ \/ / | | | | | __|
-   \ V / (_) | |  | ||  __/>  <| |_| | | | |_
-    \_/ \___/|_|   \__\___/_/\_\\___/|_|_|\__|
+<div align="center">ADVANCED MINECRAFT UTILITY SYSTEM
 
-Advanced Random Teleport + Custom Ender Chest utility plugin for Paper/Purpur 26.3
+ONE PLUGIN. MORE POSSIBILITIES.
 
 ""Platform" (https://img.shields.io/badge/Platform-Paper%20%7C%20Purpur-00D9FF?style=for-the-badge)" (#requirements)
 ""Minecraft" (https://img.shields.io/badge/Minecraft-26.3-55CC55?style=for-the-badge&logo=minecraft)" (#requirements)
@@ -17,84 +13,78 @@ Advanced Random Teleport + Custom Ender Chest utility plugin for Paper/Purpur 26
 
 Building Better Minecraft Experiences.
 
-</div>VortexUtility combines an advanced Random Teleport system and a permission-based Custom Ender Chest into one configurable Minecraft plugin. Designed for modern Paper and Purpur servers with flexible world settings, player storage, and controlled RTP searches.
+</div>---
+
+ABOUT THE PROJECT
+
+VortexUtility is an advanced Minecraft utility plugin developed by Vortex Teams.
+
+Built to combine essential server utilities into one powerful, lightweight, and customizable system.
+
+Featuring an advanced Random Teleport system and a permission-based Custom Ender Chest, VortexUtility delivers a modern experience for Minecraft servers.
+
+Your Server. Your System. Your Experience.
 
 ---
 
-Features
+CORE FEATURES
 
-Category| Description
-Random Teleport| GUI-based random teleportation
-Multi-World| Overworld, Nether, and The End
-Distance Selection| Configurable teleport distance
-Countdown| Title-based teleport countdown
-Anti-Movement| Cancels teleportation when the player moves
-Safe Location| Ground, space, and hazard checks
-RTP History| Avoids recently used locations
-World Boundaries| Custom RTP coordinate limits
-Cooldown| Individual player cooldown
-Async Chunk Loading| Asynchronous loading of existing chunks
-Custom Ender Chest| Permission-based storage GUI
-Player Storage| UUID-based persistent storage
-Configuration| Separate configuration files
-Reload System| Reload configurations without restarting
+🌍 ADVANCED RANDOM TELEPORT
 
----
+Explore your Minecraft world with an advanced Random Teleport system.
 
-Random Teleport System
+FEATURES
 
-Advanced RTP with configurable worlds, distance limits, and location searching.
-
-Supported Worlds
-
-- "world" — Overworld
-- "world_nether" — The Nether
-- "world_the_end" — The End
-
-World availability depends on the server world and its configuration.
-
-Location Search
-
-- Configurable minimum and maximum teleport distance.
-- Custom X/Z coordinate boundaries.
-- Safe ground and player-space validation.
-- Hazardous block detection.
+- Multi-world support.
+- Overworld, Nether & The End.
+- Interactive RTP GUI.
+- Customizable teleport distance.
+- Title-based teleport countdown.
+- Anti-movement cancellation.
+- Safe location detection.
+- RTP location history.
+- Avoids recently used locations.
+- Custom coordinate boundaries per world.
 - Minimum distance from other players.
-- RTP location history per player and world.
-- Limited location search attempts.
-- Maximum concurrent RTP searches.
+- Individual player cooldown.
+- Asynchronous chunk loading.
+- No forced generation of new chunks.
 
-Chunk Loading
+📦 CUSTOM ENDER CHEST
 
-RTP uses existing pregenerated chunks and does not request the generation of new chunks.
+A flexible storage system with permission-based capacity.
 
-Recommended: Use Chunky to pregenerate the RTP area before enabling a world.
-
-«Configured RTP boundaries must match the actual pregenerated area. Chunky does not automatically provide boundary configuration to VortexUtility.»
-
----
-
-Custom Ender Chest
-
-Permission-based storage with six capacity tiers.
-
-Storage Features
+FEATURES
 
 - Dedicated Custom Ender Chest GUI.
-- Six storage capacity tiers.
-- UUID-based player storage.
-- Persistent item data.
+- Six configurable storage capacity tiers.
+- Storage capacity up to 54 slots.
+- UUID-based player data storage.
+- Persistent item storage.
 - Permission-based capacity upgrades.
 - Preserves stored items when capacity changes.
-- Maximum storage capacity of 54 slots.
+
+⚙️ CONFIGURATION SYSTEM
+
+A flexible configuration system for server administrators.
+
+FEATURES
+
+- Separate configuration files.
+- Custom messages and notifications.
+- Configurable RTP worlds and boundaries.
+- Adjustable teleport cooldown.
+- Configurable search attempts.
+- Concurrent RTP search limits.
+- RTP history management.
+- GUI customization.
+- Reload configuration without server restart.
 
 ---
 
-Commands
+COMMANDS
 
-All commands are available through the following command list.
-
-Player Commands
+PLAYER COMMANDS
 
 1. "/rtp"
 
@@ -108,20 +98,21 @@ Open the Custom Ender Chest.
 
 Alternative command to open the Custom Ender Chest.
 
-Admin Commands
+ADMIN COMMANDS
 
 1. "/vortexutility reload"
 
-Reload plugin configurations without restarting the server.
+Reload all plugin configurations.
 
 2. "/vu reload"
 
-Alias for the plugin reload command.
+Reload configuration alias.
 
 ---
 
-<details>
-<summary>🔐 Permissions</summary>General Permissions
+PERMISSIONS
+
+GENERAL PERMISSIONS
 
 1. "vortexutility.rtp"
 
@@ -135,7 +126,7 @@ Allows players to access the Custom Ender Chest.
 
 Allows administrators to manage the plugin.
 
-Ender Chest Capacity
+ENDER CHEST CAPACITY
 
 1. "vortexutility.ec.1"
 
@@ -161,115 +152,13 @@ Storage Capacity: 45 Slots
 
 Storage Capacity: 54 Slots
 
-</details>---
+---
 
-<details>
-<summary>⚙️ RTP Configuration</summary>RTP configuration is stored in "rtp.yml".
+CONFIGURATION
 
-General Settings
+VortexUtility automatically generates its configuration files after the first server startup.
 
-1. "cooldown-seconds"
-
-Controls the RTP cooldown duration.
-
-2. "max-concurrent-searches"
-
-Controls the maximum number of simultaneous RTP searches.
-
-History Settings
-
-1. "history.enabled"
-
-Enables or disables RTP history.
-
-2. "history.max-locations"
-
-Sets the maximum number of saved locations.
-
-3. "history.minimum-distance"
-
-Sets the minimum distance from previously used locations.
-
-Performance Settings
-
-1. "performance.max-attempts"
-
-Sets the maximum number of location search attempts.
-
-2. "performance.async-chunk-loading"
-
-Enables asynchronous chunk loading.
-
-3. "performance.generate-new-chunks"
-
-New chunk generation remains disabled internally.
-
-World Settings
-
-Each world has independent settings:
-
-- "enabled"
-- "center-x"
-- "center-z"
-- "min-x"
-- "max-x"
-- "min-z"
-- "max-z"
-- "min-distance"
-- "max-distance"
-- "attempts"
-- "min-player-distance"
-
-</details>---
-
-<details>
-<summary>📦 Requirements</summary>1. Paper / Purpur
-
-Minecraft server software version 26.3.
-
-2. Java
-
-Java 25 for the current project build.
-
-3. Chunky
-
-Recommended for RTP area pregeneration.
-
-Chunky is recommended, not a required runtime dependency.
-
-</details>---
-
-<details>
-<summary>🏗️ Building</summary>Clone Repository
-
-git clone https://github.com/kingdomvortex3-star/VortexUtility.git
-cd VortexUtility
-
-Build with Gradle
-
-gradle build
-
-Build Output
-
-build/libs/VortexUtility-*.jar
-
-Installation
-
-1. Place the generated JAR into the server's "plugins/" directory.
-
-2. Start or restart the Paper/Purpur server.
-
-3. Edit the generated configuration files.
-
-4. Run "/vortexutility reload" after making configuration changes.
-
-</details>---
-
-Configuration
-
-Configuration files are generated on the first server startup.
-
-Directory Structure
+DIRECTORY STRUCTURE
 
 plugins/
 └── VortexUtility/
@@ -283,7 +172,7 @@ plugins/
         └── enderchests/
             └── <UUID>.yml
 
-Configuration Files
+CONFIGURATION FILES
 
 1. "config.yml"
 
@@ -303,9 +192,9 @@ Custom Ender Chest settings.
 
 5. "data/enderchests/"
 
-Player Ender Chest storage files based on UUID.
+Player storage files based on UUID.
 
-RTP World Configuration
+RTP WORLD CONFIGURATION
 
 Each world can be configured independently.
 
@@ -316,19 +205,87 @@ Each world can be configured independently.
 - Set maximum location search attempts.
 - Configure minimum distance from other players.
 
-Performance Settings
+RTP HISTORY
+
+- Enable or disable location history.
+- Set maximum saved locations.
+- Configure minimum distance from previous locations.
+- Separate history for each player and world.
+
+PERFORMANCE SETTINGS
 
 - Maximum concurrent RTP searches.
 - Maximum location search attempts.
 - Asynchronous chunk loading.
-- RTP history management.
+- Controlled location searching.
 - No forced new chunk generation.
 
-«IMPORTANT: Pregenerate RTP areas using Chunky before enabling RTP. Ensure that the configured coordinate boundaries match the pregenerated area in each world.»
+«IMPORTANT
+
+Pregenerate your RTP areas using Chunky before enabling RTP.
+
+Make sure configured coordinate boundaries match the pregenerated area in each world.»
 
 ---
 
-Developer
+REQUIREMENTS
+
+1. Paper / Purpur
+
+Minecraft server version 26.3.
+
+2. Java
+
+Java 25 runtime and build environment.
+
+3. Chunky
+
+Recommended for RTP area pregeneration.
+
+Chunky is recommended, not a required runtime dependency.
+
+---
+
+BUILDING
+
+CLONE REPOSITORY
+
+git clone https://github.com/kingdomvortex3-star/VortexUtility.git
+cd VortexUtility
+
+BUILD WITH GRADLE
+
+gradle build
+
+BUILD OUTPUT
+
+build/libs/VortexUtility-*.jar
+
+INSTALLATION
+
+1. DOWNLOAD
+
+Download the latest "VortexUtility.jar" from GitHub Releases.
+
+2. UPLOAD
+
+Place the JAR file into your server's "plugins/" directory.
+
+3. RESTART
+
+Restart your Paper or Purpur server.
+
+4. CONFIGURE
+
+Edit the generated configuration files inside "plugins/VortexUtility/".
+
+5. ENJOY
+
+Start using VortexUtility on your server.
+
+---
+
+DEVELOPER
 
 <div align="center">⚡ VORTEX TEAMS
 
@@ -340,7 +297,9 @@ INNOVATION • PERFORMANCE • QUALITY
 
 </div>---
 
-<div align="center">VortexUtility — One Plugin. More Possibilities.
+<div align="center">VORTEX UTILITY
+
+ONE PLUGIN. MORE POSSIBILITIES.
 
 Developed with ❤️ by VORTEX TEAMS
 
