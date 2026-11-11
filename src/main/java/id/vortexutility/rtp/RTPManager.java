@@ -131,11 +131,7 @@ public final class RTPManager {
         if (!Bukkit.isPrimaryThread()) {
             Bukkit.getScheduler().runTask(
                     plugin,
-                    () -> start(
-                            player,
-                            worldName,
-                            requestedDistance
-                    )
+                    () -> start(player, worldName, requestedDistance)
             );
             return;
         }
@@ -221,9 +217,7 @@ public final class RTPManager {
 
         int minPlayerDistance = Math.max(
                 0,
-                section.getInt(
-                        "min-player-distance", 100
-                )
+                section.getInt("min-player-distance", 100)
         );
 
         if (minX >= maxX
@@ -240,25 +234,20 @@ public final class RTPManager {
             return;
         }
 
-        MessageUtil.send(
-                plugin, player, "rtp.searching"
-        );
+        MessageUtil.send(plugin, player, "rtp.searching");
 
         tryCandidate(
-                player,
-                world,
-                centerX,
-                centerZ,
-                minX,
-                maxX,
-                minZ,
-                maxZ,
-                minDistance,
-                maxDistance,
-                minPlayerDistance,
-                attempts
+                player, world,
+                centerX, centerZ,
+                minX, maxX, minZ, maxZ,
+                minDistance, maxDistance,
+                minPlayerDistance, attempts
         );
     }
+
+    /*
+     * CANDIDATE SEARCH
+     */
 
     private void tryCandidate(
             Player player,
@@ -418,18 +407,8 @@ public final class RTPManager {
 
         Location safe = findSafeLocation(world, x, z);
 
-        if (safe == null) {
-            retry(
-                    player, world,
-                    centerX, centerZ,
-                    minX, maxX, minZ, maxZ,
-                    minDistance, maxDistance,
-                    minPlayerDistance, remaining
-            );
-            return;
-        }
-
-        if (isRecentlyUsed(player, world, x, z)
+        if (safe == null
+                || isRecentlyUsed(player, world, x, z)
                 || tooCloseToPlayers(
                         safe,
                         minPlayerDistance,
@@ -447,6 +426,160 @@ public final class RTPManager {
         }
 
         startCountdown(player, safe);
+    }
+
+    /*
+     * SAFE LOCATION BY DIMENSION
+     */
+
+    private Location findSafeLocation(
+            World world,
+            int x,
+            int z
+    ) {
+        if (world.getEnvironment() == World.Environment.NETHER) {
+            return findNetherSafeLocation(world, x, z);
+        }
+
+        if (world.getEnvironment() == World.Environment.THE_END) {
+            return findNormalSafeLocation(world, x, z);
+        }
+
+        return findNormalSafeLocation(world, x, z);
+    }
+
+    /*
+     * NETHER SAFE LOCATION
+     *
+     * Nether roof is avoided by searching only up to Y=120.
+     * Search downward for the highest safe floor below that limit.
+     */
+
+    private Location findNetherSafeLocation(
+            World world,
+            int x,
+            int z
+    ) {
+        int minY = Math.max(
+                world.getMinHeight() + 5,
+                5
+        );
+
+        int maxY = Math.min(
+                world.getMaxHeight() - 3,
+                120
+        );
+
+        if (maxY <= minY) return null;
+
+        for (int y = maxY; y >= minY; y--) {
+
+            Block ground = world.getBlockAt(x, y, z);
+            Block feet = world.getBlockAt(x, y + 1, z);
+            Block head = world.getBlockAt(x, y + 2, z);
+
+            Material groundType = ground.getType();
+
+            if (!groundType.isSolid()) continue;
+
+            if (groundType == Material.BEDROCK
+                    || groundType == Material.BARRIER
+                    || isHazard(groundType)) {
+                continue;
+            }
+
+            if (!feet.isPassable()
+                    || !head.isPassable()) {
+                continue;
+            }
+
+            if (isHazard(feet.getType())
+                    || isHazard(head.getType())) {
+                continue;
+            }
+
+            if (feet.getType() == Material.BEDROCK
+                    || head.getType() == Material.BEDROCK) {
+                continue;
+            }
+
+            return new Location(
+                    world,
+                    x + 0.5,
+                    y + 1,
+                    z + 0.5
+            );
+        }
+
+        return null;
+    }
+
+    /*
+     * OVERWORLD / END SAFE LOCATION
+     */
+
+    private Location findNormalSafeLocation(
+            World world,
+            int x,
+            int z
+    ) {
+        int highest = world.getHighestBlockYAt(x, z);
+
+        if (highest <= world.getMinHeight()
+                || highest + 2 >= world.getMaxHeight()) {
+            return null;
+        }
+
+        Block ground = world.getBlockAt(
+                x, highest, z
+        );
+
+        Block feet = world.getBlockAt(
+                x, highest + 1, z
+        );
+
+        Block head = world.getBlockAt(
+                x, highest + 2, z
+        );
+
+        if (!ground.getType().isSolid()) return null;
+
+        if (ground.getType() == Material.BEDROCK
+                || ground.getType() == Material.BARRIER
+                || isHazard(ground.getType())) {
+            return null;
+        }
+
+        if (!feet.isPassable()
+                || !head.isPassable()) {
+            return null;
+        }
+
+        if (isHazard(feet.getType())
+                || isHazard(head.getType())) {
+            return null;
+        }
+
+        return new Location(
+                world,
+                x + 0.5,
+                highest + 1,
+                z + 0.5
+        );
+    }
+
+    private boolean isHazard(Material material) {
+        return material == Material.LAVA
+                || material == Material.MAGMA_BLOCK
+                || material == Material.CACTUS
+                || material == Material.FIRE
+                || material == Material.SOUL_FIRE
+                || material == Material.CAMPFIRE
+                || material == Material.SOUL_CAMPFIRE
+                || material == Material.POWDER_SNOW
+                || material == Material.SWEET_BERRY_BUSH
+                || material == Material.WITHER_ROSE
+                || material == Material.POINTED_DRIPSTONE;
     }
 
     /*
@@ -477,16 +610,6 @@ public final class RTPManager {
                 startingLocation
         );
 
-        player.sendTitle(
-                MessageUtil.color("&b&lRTP"),
-                MessageUtil.color(
-                        "&7Jangan bergerak!"
-                ),
-                0,
-                25,
-                0
-        );
-
         BukkitRunnable runnable = new BukkitRunnable() {
 
             private int elapsedTicks = 0;
@@ -502,16 +625,11 @@ public final class RTPManager {
                     return;
                 }
 
-                Location current =
-                        player.getLocation();
-
-                Location start =
-                        countdownLocations.get(uuid);
+                Location current = player.getLocation();
+                Location start = countdownLocations.get(uuid);
 
                 if (start == null
-                        || !current.getWorld().equals(
-                                start.getWorld()
-                        )
+                        || !current.getWorld().equals(start.getWorld())
                         || current.distanceSquared(start) > 0.0001) {
 
                     cancel();
@@ -521,9 +639,7 @@ public final class RTPManager {
                     searching.remove(uuid);
 
                     player.sendTitle(
-                            MessageUtil.color(
-                                    "&c&lRTP DIBATALKAN!"
-                            ),
+                            MessageUtil.color("&c&lRTP DIBATALKAN!"),
                             MessageUtil.color(
                                     "&7Kamu bergerak saat countdown."
                             ),
@@ -533,15 +649,11 @@ public final class RTPManager {
                     );
 
                     MessageUtil.send(
-                            plugin,
-                            player,
-                            "rtp.moved"
+                            plugin, player, "rtp.moved"
                     );
 
                     MessageUtil.play(
-                            plugin,
-                            player,
-                            "fail"
+                            plugin, player, "fail"
                     );
                     return;
                 }
@@ -553,26 +665,18 @@ public final class RTPManager {
                     countdownTasks.remove(uuid);
                     countdownLocations.remove(uuid);
 
-                    teleportPlayer(
-                            player,
-                            destination
-                    );
+                    teleportPlayer(player, destination);
                     return;
                 }
 
                 if (elapsedTicks % 20 == 0) {
 
                     int remaining =
-                            countdownSeconds
-                                    - (elapsedTicks / 20);
+                            countdownSeconds - elapsedTicks / 20;
 
                     player.sendTitle(
-                            MessageUtil.color(
-                                    "&b&l" + remaining
-                            ),
-                            MessageUtil.color(
-                                    "&7Jangan bergerak!"
-                            ),
+                            MessageUtil.color("&b&l" + remaining),
+                            MessageUtil.color("&7Jangan bergerak!"),
                             0,
                             20,
                             0
@@ -659,69 +763,7 @@ public final class RTPManager {
     }
 
     /*
-     * SAFE LOCATION
-     */
-
-    private Location findSafeLocation(
-            World world,
-            int x,
-            int z
-    ) {
-        int highest = world.getHighestBlockYAt(x, z);
-
-        if (highest <= world.getMinHeight()
-                || highest + 2 >= world.getMaxHeight()) {
-            return null;
-        }
-
-        Block ground = world.getBlockAt(
-                x, highest, z
-        );
-
-        Block feet = world.getBlockAt(
-                x, highest + 1, z
-        );
-
-        Block head = world.getBlockAt(
-                x, highest + 2, z
-        );
-
-        if (!ground.getType().isSolid()) return null;
-        if (isHazard(ground.getType())) return null;
-
-        if (!feet.isPassable()
-                || !head.isPassable()) {
-            return null;
-        }
-
-        if (isHazard(feet.getType())
-                || isHazard(head.getType())) {
-            return null;
-        }
-
-        return new Location(
-                world,
-                x + 0.5,
-                highest + 1,
-                z + 0.5
-        );
-    }
-
-    private boolean isHazard(Material material) {
-        return material == Material.LAVA
-                || material == Material.MAGMA_BLOCK
-                || material == Material.CACTUS
-                || material == Material.FIRE
-                || material == Material.SOUL_FIRE
-                || material == Material.CAMPFIRE
-                || material == Material.SOUL_CAMPFIRE
-                || material == Material.POWDER_SNOW
-                || material == Material.SWEET_BERRY_BUSH
-                || material == Material.WITHER_ROSE;
-    }
-
-    /*
-     * RTP HISTORY
+     * HISTORY
      */
 
     private String historyKey(
@@ -742,10 +784,7 @@ public final class RTPManager {
         }
 
         Deque<Location> locations = history.get(
-                historyKey(
-                        player.getUniqueId(),
-                        world
-                )
+                historyKey(player.getUniqueId(), world)
         );
 
         if (locations == null || locations.isEmpty()) {
@@ -830,15 +869,11 @@ public final class RTPManager {
         if (!player.isOnline()) return;
 
         MessageUtil.send(
-                plugin,
-                player,
-                "rtp.failed"
+                plugin, player, "rtp.failed"
         );
 
         MessageUtil.play(
-                plugin,
-                player,
-                "fail"
+                plugin, player, "fail"
         );
     }
 
@@ -856,15 +891,11 @@ public final class RTPManager {
                 || !Boolean.TRUE.equals(success)) {
 
             MessageUtil.send(
-                    plugin,
-                    player,
-                    "rtp.failed"
+                    plugin, player, "rtp.failed"
             );
 
             MessageUtil.play(
-                    plugin,
-                    player,
-                    "fail"
+                    plugin, player, "fail"
             );
             return;
         }
@@ -886,9 +917,7 @@ public final class RTPManager {
         );
 
         MessageUtil.send(
-                plugin,
-                player,
-                "rtp.success"
+                plugin, player, "rtp.success"
         );
 
         player.sendMessage(
@@ -900,9 +929,7 @@ public final class RTPManager {
         );
 
         MessageUtil.play(
-                plugin,
-                player,
-                "success"
+                plugin, player, "success"
         );
     }
 }
