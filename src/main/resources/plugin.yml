@@ -4,40 +4,60 @@ version: '${version}'
 main: id.vortexutility.VortexUtility
 api-version: '26.3'
 author: VortexNetwork
-description: Optimized RTP and Ender Chest GUI Plugin
+description: Optimized RTP and Custom Ender Chest
 
 commands:
   vortexutility:
-    description: Main VortexUtility command
-    aliases:
-      - vu
+    description: VortexUtility administration
+    aliases: [vu]
     usage: /vu reload
     permission: vortexutility.admin
 
   rtp:
-    description: Open Random Teleport GUI
+    description: Open RTP GUI
     usage: /rtp
     permission: vortexutility.rtp
 
   ec:
-    description: Open Ender Chest GUI
-    aliases:
-      - enderchest
+    description: Open Custom Ender Chest
+    aliases: [enderchest]
     usage: /ec
     permission: vortexutility.ec
 
 permissions:
   vortexutility.admin:
-    description: Access all VortexUtility administration commands
+    description: VortexUtility administrator
     default: op
     children:
       vortexutility.rtp: true
       vortexutility.ec: true
+      vortexutility.ec.1: true
+      vortexutility.ec.2: true
+      vortexutility.ec.3: true
+      vortexutility.ec.4: true
+      vortexutility.ec.5: true
+      vortexutility.ec.6: true
 
   vortexutility.rtp:
-    description: Access the RTP GUI
     default: true
 
   vortexutility.ec:
-    description: Access the Ender Chest GUI
     default: true
+
+  vortexutility.ec.1:
+    default: true
+
+  vortexutility.ec.2:
+    default: false
+
+  vortexutility.ec.3:
+    default: false
+
+  vortexutility.ec.4:
+    default: false
+
+  vortexutility.ec.5:
+    default: false
+
+  vortexutility.ec.6:
+    default: false
