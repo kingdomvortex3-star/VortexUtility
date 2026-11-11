@@ -1,0 +1,49 @@
+
+# Sesuaikan koordinat dengan batas pregeneration Chunky.
+# Angka di bawah hanya contoh.
+
+cooldown-seconds: 60
+max-concurrent-searches: 2
+
+worlds:
+  world:
+    enabled: true
+    center-x: 0
+    center-z: 0
+
+    min-x: -5000
+    max-x: 5000
+    min-z: -5000
+    max-z: 5000
+
+    min-distance: 500
+    max-distance: 5000
+
+    attempts: 12
+    min-player-distance: 100
+
+  world_nether:
+    enabled: false
+    center-x: 0
+    center-z: 0
+    min-x: -2500
+    max-x: 2500
+    min-z: -2500
+    max-z: 2500
+    min-distance: 250
+    max-distance: 2500
+    attempts: 10
+    min-player-distance: 50
+
+  world_the_end:
+    enabled: false
+    center-x: 0
+    center-z: 0
+    min-x: -2000
+    max-x: 2000
+    min-z: -2000
+    max-z: 2000
+    min-distance: 250
+    max-distance: 2000
+    attempts: 10
+    min-player-distance: 50
