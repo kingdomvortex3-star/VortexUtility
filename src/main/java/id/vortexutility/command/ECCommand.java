@@ -30,16 +30,7 @@ public final class ECCommand implements CommandExecutor {
             return true;
         }
 
-        if (!player.hasPermission("vortexutility.ec")) {
-            MessageUtil.send(plugin, player, "no-permission");
-            return true;
-        }
-
-        player.openInventory(player.getEnderChest());
-
-        MessageUtil.send(plugin, player, "ec.opening");
-        MessageUtil.play(plugin, player, "open");
-
+        plugin.ec().open(player);
         return true;
     }
 }
