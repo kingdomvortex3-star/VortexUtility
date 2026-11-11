@@ -1,0 +1,32 @@
+
+settings:
+  enabled: true
+  title: "&8Vortex Ender Chest"
+  rows:
+    default: 1
+    maximum: 6
+
+tiers:
+  1:
+    permission: "vortexutility.ec.1"
+    slots: 9
+  2:
+    permission: "vortexutility.ec.2"
+    slots: 18
+  3:
+    permission: "vortexutility.ec.3"
+    slots: 27
+  4:
+    permission: "vortexutility.ec.4"
+    slots: 36
+  5:
+    permission: "vortexutility.ec.5"
+    slots: 45
+  6:
+    permission: "vortexutility.ec.6"
+    slots: 54
+
+messages:
+  no-permission: "&cKamu tidak memiliki akses Ender Chest."
+  disabled: "&cEnder Chest sedang dinonaktifkan."
+  opened: "&aEnder Chest berhasil dibuka."
