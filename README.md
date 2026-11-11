@@ -1,6 +1,3 @@
-
-<div align="center">
-
 # ⚡ VORTEX UTILITY
 
 ### ADVANCED • MODERN • LIGHTWEIGHT
@@ -12,19 +9,11 @@
 ![Minecraft](https://img.shields.io/badge/Minecraft-26.3-55CC55?style=for-the-badge&logo=minecraft)
 ![Developer](https://img.shields.io/badge/Developer-Vortex%20Teams-8B5CF6?style=for-the-badge)
 
-<br>
-
-<img src="assets/vortex-utility-banner.png" width="100%" alt="VortexUtility Banner">
-
-<br>
+<img src="assets/vortex-utility-banner.png.png" width="100%" alt="VortexUtility Banner">
 
 **Developed with ❤️ by VORTEX TEAMS**
 
 *Building Better Minecraft Experiences.*
-
-</div>
-
----
 
 
 </p>---
